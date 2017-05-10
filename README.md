@@ -1,7 +1,8 @@
-# GW CS Senior Design Project Template
+# eVERIFY
 
-Use the master branch of this repository for your **working** code.  You should use the [Feature Branch](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) or [Git Flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) structure for your code and branches.
+eVERIFY provides data privacy preserving asset verification services for customers that need to prove to a bank or other institution that they hold at least a certain amount of assets.  The service allows another party to verify a minimum asset level while keeping the account holder's total financial asset balance completely private.
 
-The gh-pages branch of this repository has starter files for your web page. You should upload PDF versions of all your assignments and keep your web page up to date.
+The system includes an application for both the customer as well as the other party verifying the information.  In order to create a new transaction, a user must log in to their account and submit the lender information, minimum qualifying amount that they need to prove, and the institutions that they bank with.  Once submitted, keys will be emailed to the lender.  The lender can then log in to their account and verify the user's minimum asset level by using the keys sent to them.
 
-**Once you understand the structure listed above, you should replace this readme with something specific to your project.**
+
+
