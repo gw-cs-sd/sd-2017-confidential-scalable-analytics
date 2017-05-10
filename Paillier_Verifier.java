@@ -1,6 +1,17 @@
+/*
+ * Libraries and packages used:
+ */
+
+package verifierPackage;
+import verifierPackage.SwingApp;
+
 import java.math.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
 import java.io.*;
+
 
 
 /*
@@ -48,37 +59,63 @@ public class Paillier_Verifier {
 
     public String returnValue0(BigInteger decryptedResult) {
 
-    	String result = String.ValueOf(decryptedResult);
+    	String result = String.valueOf(decryptedResult);
 
     	return result;
     }
 
 
     // str = [lambda, g, n, cipherTextResultMask]
-    public static void main(String[] str) {
+    public static void main(String[] str) throws IOException {
 
     	Paillier_Verifier paillier = new Paillier_Verifier(str);
     	
     	BigInteger cipherTextResultMask = new BigInteger(str[3]);
 
     	BigInteger decryptedResult;
+    	 
+    	String finalResult;
+    	
+    	/*
+		 * Establish connection to eVERIFY server, encode results and send data.
+		 */
+		 
+		URL updateTransaction = new URL("http://localhost/everify/updateTransaction.php");
+	    URLConnection eVerifyConnection = updateTransaction.openConnection();
+	    
+	    String charset = "UTF-8";
+	    eVerifyConnection.setDoOutput(true);
 
     	/*
     	 * Result does not exceed minimum qualifying balance
     	 * FAILURE
     	 */
-        if (paillier.Decryption(cipherTextResultMask).compareTo(new BigInteger("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")) == 1)
+        if (paillier.Decryption(cipherTextResultMask).compareTo(new BigInteger("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")) == 1){
             decryptedResult = paillier.Decryption(cipherTextResultMask).subtract(n);
-    	/*
+            finalResult = "FAIL";
+        }
+     	/*
     	 * Result does exceed minimum qualifying balance
     	 * SUCCESS
     	 */
-        else
+        else {
             decryptedResult = paillier.Decryption(cipherTextResultMask);
-
+        	finalResult = "PASS";
+        }
 
     	String value0 = paillier.returnValue0(decryptedResult);
-
+	   
+	    String parameters = "result=" + finalResult + "&transactionId=" + SwingApp.verificationId;  
+	    
+	    byte[] parameterBytes = parameters.getBytes(charset);
+	    
+	    DataOutputStream sendParameters = new DataOutputStream(eVerifyConnection.getOutputStream());
+	    sendParameters.write(parameterBytes);
+	    sendParameters.close();
+        
+        eVerifyConnection.getInputStream();
+    	
+    	SwingApp.sendResult(value0, finalResult);
 
     }
 }
