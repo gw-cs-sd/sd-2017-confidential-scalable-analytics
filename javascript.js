@@ -96,8 +96,8 @@ function selectCompanySuggestion(company){
 function loadDynamicJNLP(){
 	$.ajax({
 		url: 'dynamicJNLP.php',
-        contentType: false,
-        processData: false,
+        	contentType: false,
+        	processData: false,
 		success: function(){
 			window.location.href = "paillierApp.jnlp";
 		}
