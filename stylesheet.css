@@ -1,0 +1,506 @@
+html, body {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+#loginPage {
+	background-color: #232323;
+	height: auto;
+}
+
+.homeContainer {
+	background: #2a2a2a;
+	padding-bottom: 100px;
+}
+
+h1 {
+	font-size: 42px;
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: bold;
+	color: white;
+}
+
+h1:first-letter {
+	color: red;
+}
+
+#loginContainer {
+	text-align: center;
+}
+
+.topMargin {
+	margin-top: 110px;
+}
+
+#userLogin {
+	text-align: center;
+	display: inline-block;
+	vertical-align: top;
+	height: 180px;
+	width: 180px;
+	background: #253240; 
+	border-radius: 50%;
+	margin-right: 50px;
+	border: 8px solid rgba(255, 255, 255, .5);
+	margin-bottom: 100px;
+}
+
+#userLogin span, #companyLogin span {
+	display: block;
+	margin-top: 30px !important;
+	padding: 0px;
+	font-size: 38px;
+	color: white;
+	margin: 0px;
+}
+
+#userLogin a {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+	color: white;
+	font-size: 28px;
+	text-decoration: none;
+	margin-bottom: 15px;
+}
+
+#companyLogin {
+	text-align: center;
+	display: inline-block;
+	height: 180px;
+	width: 180px;
+	background: #232323; 
+	border-radius: 50%;
+	border: 8px solid rgba(255, 255, 255, .5);
+}
+
+#companyLogin a {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+	color: white;
+	font-size: 28px;
+	text-decoration: none;
+	margin-bottom: 15px;
+}
+
+#companyLogin:hover, #userLogin:hover {
+	cursor: pointer;
+}
+
+#loginForm {
+	display: none;
+	border-radius: 3px;
+	padding: 40px 0px;
+	background: rgba(35, 35, 35, 0.5);
+}
+
+form h2 {
+	text-align: center;
+	color: white;
+}
+
+form input {
+	margin: auto;
+	width: 75% !important;
+	margin-bottom: 5px;
+}
+
+form input:last-child {
+	margin-top: 15px;
+	background-color: #1589d6;
+	color: white;
+	border: none;
+}
+
+.mainNav {
+	list-style-type: none;
+	margin-top: 30px;
+	text-align: right;
+}
+
+.mainNav li {
+	display: inline-block;
+	padding: 5px 10px;
+}
+
+.mainNav li a {
+	text-decoration: none;
+	font-family: 'Ubuntu', sans-serif;
+	font-weight: 500;
+	color: #1589d6;
+}
+
+.mainNav li a:hover {
+	cursor: pointer;
+}
+
+.row {
+	overflow: hidden;
+}
+
+[class*="col-"] {
+	margin-bottom: -99999px;
+	padding-bottom: 99999px;
+}
+
+#verificationTitle {
+	font-size: 22px;
+	font-family: 'Ubuntu', sans-serif;
+	width: 95%;
+	margin: 20px auto 5px;
+}
+
+.verificationHeader {
+	background-color: #999999;
+	height: 30px;
+	margin: auto;
+	margin-bottom: 10px;
+	width: 95%;
+}
+
+.verificationHeader a {
+	display: inline-block;
+	height: 100%;
+	width: 33%;
+	padding-top: 3px;
+	padding-left: 10px;
+	color: white;
+	font-size: 18px;
+	font-family: 'Ubuntu', sans-serif;
+	border-right: 1px solid white;
+}
+
+.verificationHeader a:last-child {
+	border-right: none;
+}
+
+.verificationRow {
+	border: 1px solid black;
+	height: 30px;
+	margin-bottom: 5px;
+}
+
+.copyright {
+	text-align: center;
+	margin-top: 30px;
+	color: white;
+}
+
+.leftMenuBar {
+	background-color: #253240;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.leftMenuBar h1 {
+	text-align: center;
+	font-weight: 500;
+	font-size: 34px;
+}
+
+.leftMenuBar ul {
+	list-style-type: none;
+	padding: 0px;
+}
+
+.leftMenuBar ul li {
+	margin-bottom: 5px;
+	padding: 5px 0px;
+	padding-left: 15px;
+}
+
+.leftMenuBar ul li a {
+	display: block;
+	font-size: 14px;
+	font-weight: 500;
+	font-family: 'Ubuntu', sans-serif;
+	color: white;
+	text-decoration: none;
+}
+
+.leftMenuBar ul li:hover {
+	background-color: #dee7ed;
+	cursor: pointer;
+}
+
+.leftMenuBar ul li:hover a {
+	color: #253240;
+}
+
+.leftMenuBar ul li a span {
+	margin-right: 6px;
+}
+
+.activeMenuLine {
+	background-color: #dee7ed;
+}
+
+.activeMenuItem {
+	color: #253240 !important;
+}
+
+.topLeftMenuBar {
+	margin: 0px;
+	padding: 3px;
+}
+
+#nameTitle {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 28px;
+	font-weight: 400;
+	margin-top: 35px;
+	margin-right: 40px;
+	color: #253240;
+	text-align: right;
+}
+
+.leftNav {
+	margin-top: 40px;
+}
+
+.rightContent {
+	padding-top: 20px;
+	background-color: #dee7ed;
+}
+
+.container-fluid {
+	height: 100%;
+}
+
+.mainRow {
+	min-height: 90%;
+}
+
+.footer {
+	min-height: 10%;
+}
+
+#userProfile {
+	background-color: white;
+	padding: 20px;
+	border-radius: 3px;
+}
+
+#userProfile a {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 18px;
+	text-decoration: none;
+	color: black;
+}
+
+.userProfileLabel {
+	display: inline-block;
+	width: 210px;
+}
+
+.userProfileHeader {
+	border-bottom: 1px solid #253240;
+}
+
+.userTransactionsHeader {
+	margin-top: 30px;
+	border-bottom: 1px solid #253240;
+}
+
+input[type="file"] {
+	display: none;
+}
+
+#uploadDocumentSubmit {
+	display: none;
+}
+
+#uploadDocumentButton, #submitVerificationButton {
+	border: none;
+	width: 200px;
+	font-size: 24px;
+	margin-top: 100px;
+	margin-bottom: 20px;
+	background-color: #253240;
+	color: white;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+#buttonContainer {
+	text-align: center;
+}
+
+.container-fluid {
+	z-index: 9;
+}
+
+#imageDataTitle {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 22px;
+	color: #253240;
+}
+
+.rightContent h2 {
+	font-size: 24px;
+	font-weight: 500;
+	margin-bottom: 40px;
+	color: #253240;
+	border-bottom: 1px solid #253240;
+}
+
+#newVerificationForm {
+	position: relative;
+}
+
+#newVerificationForm label {
+	width: 190px;
+	font-size: 18px;
+	font-weight: 500;
+	color: #253240;
+}
+
+#newVerificationForm input {
+	margin-left: 44px;
+	width: 300px !important;
+	margin-bottom: 0px;
+	padding-left: 5px;
+}
+
+#newVerificationForm input:not(#verifier) {
+	margin-bottom: 20px;
+}
+
+#companySuggestionBox {
+	display: none;
+	background-color: white;
+	position: absolute;
+	margin-left: 44px;
+	top: 56px;
+	width: 300px;
+	border: 1px solid #253240;
+	border-top: none;
+}
+
+#companySuggestionLink {
+	display: block;
+	padding: 1px 5px;
+	text-decoration: none;
+	color: #253240;
+}
+
+#companySuggestionLink:hover {
+	cursor: pointer;
+	background-color: #253240;
+	color: white;
+}
+
+.verificationsTable {
+	background-color: white;
+	width: 100%;
+	margin-bottom: 50px;
+	border: 1px solid #253240;
+}
+
+.verificationsTable th {
+	font-size: 16px;
+	background-color: #253240;
+	color: white;
+}
+
+.verificationsTable td {
+	font-size: 16px;
+}
+
+.verificationsTable th, .verificationsTable td {
+	text-align: center;
+	border: 1px solid #253240;
+}
+
+.verificationsTable tr:nth-child(odd) {
+	background-color: #E0E0E0;
+}
+
+#documentContainerHidden {
+	display: none;
+	position: fixed;
+	width: 80%;
+	height: 80%;
+	top: 10%;
+	left: 10%;
+	background-color: white;
+	z-index: 999;
+}
+
+#noPendingVerificationsNotice {
+	font-size: 18px;
+	margin-left: 0px;
+}
+
+#documentLink {
+	display: block;
+	margin: auto;
+	height: 30px;
+	width: 30px;
+	padding: 2px;
+	color: #253240;
+	font-size: 20px;
+}
+
+#documentLink:hover, .rejectVerification, .approveVerification {
+	cursor: pointer;
+}
+
+.rejectVerification {
+	color: #CC0000;
+}
+
+.approveVerification {
+	color: #00B200;
+}
+
+.formNumbers {
+	font-size: 18px;
+	border: 1px solid #253240;
+	border-radius: 50%;
+	padding: 3px 8px 4px;
+	background-color: #253240;
+	color: white;
+	margin-right: 10px;
+}
+
+hr {
+	margin-bottom: 40px;
+	border-top: 1px solid #253240;
+}
+
+#addBankButton {
+	margin-left: 10px;
+	background-color: #253240;
+	color: white;
+	border: 1px solid #253240;
+}
+
+#jnlpButton {
+	text-decoration: none;
+	padding: 5px;
+	color: white;
+	border: 1px solid #253240;
+	border-radius: 2px;
+	background-color: #253240;
+}
+
+#jnlpButton:hover {
+	cursor: pointer;
+}
+
+#bankList {
+	
+}
+
+footer {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 100px;
+	background-color: #232323;
+}
+

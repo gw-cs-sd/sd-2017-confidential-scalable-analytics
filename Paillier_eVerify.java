@@ -2,11 +2,10 @@ import java.math.*;
 import java.util.*;
 import java.io.*;
 
-
 /*
  * Sum encryped accounts balances
  * Subtract from cipherTextSum cipherThreshold
- * Apply mask (work in progress)
+ * Apply mask
  *
  * Returns cipherTextSumMask
  */
@@ -50,11 +49,8 @@ public class Paillier_eVerify {
      * RETURNS:
      * "cipherTextResult"
      */
-    public String returnValue0(BigInteger cipherTextResultMask) {
-
-    	String result =  String.ValueOf(cipherTextResultMask);
-
-    	return result;
+    public void returnValue(BigInteger cipherTextResultMask) {
+    	System.out.println(String.valueOf(cipherTextResultMask));
     }
 
 
@@ -63,7 +59,7 @@ public class Paillier_eVerify {
 
 		Paillier_eVerify paillier = new Paillier_eVerify(str);
 
-		String[] ciphertextList = new String[] {str[0]};
+		String[] ciphertextList = str[0].split("\\,");
 
 		BigInteger cipherThreshold = new BigInteger(str[2]);
 
@@ -75,8 +71,7 @@ public class Paillier_eVerify {
 
 		BigInteger cipherTextResultMask = cipherTextResult.modPow(mask, nsquare);
 
-		String value0 = paillier.returnValue0(cipherTextResultMask);
+		paillier.returnValue(cipherTextResultMask);
 
 	}
-
 }

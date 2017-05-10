@@ -1,0 +1,51 @@
+<!-- This page is using icons from font awesome (Font Awesome by Dave Gandy - http://fontawesome.io).  CDN: //maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700|PT+Sans|Yellowtail' rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="javascript.js"></script>
+	<title>eVerify</title>
+</head>
+<body id="loginPage">
+	<div class="container-fluid homeContainer">
+		<div class="row">
+			<div class="col-xs-4"><h1>eVERIFY</h1></div>
+		</div>
+		<div id="loginContainer" class="row topMargin">
+			<div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+				<div id="userLogin">
+					<span><i class="fa fa-user-circle-o" aria-hidden="true"></i></span>
+					<a>CLIENT</a>
+				</div>
+				<div id="companyLogin">
+					<span><i class="fa fa-university" aria-hidden="true"></i></span>
+					<a>LENDER</a>
+				</div>
+				<form action="verifyLogin.php" method="POST" id="loginForm">
+					<h2>Log in</h2>
+					<div class="form-group">
+						<input class="form-control" type="text" name="username" placeholder="Username">
+						<input class="form-control" type="password" name="password" placeholder="Password">
+						<input class="form-control" type="hidden" name="login" id="loginType">
+						<input class="form-control" type="submit" value="SUBMIT">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid footerContainer">
+		<div class="row">
+			<div class="col-xs-12">
+				<p class="copyright">Copyright &copy 2016 eVERIFY.  All rights reserved.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
