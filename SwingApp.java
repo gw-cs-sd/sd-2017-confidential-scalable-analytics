@@ -2,9 +2,8 @@
  * Libraries and packages used:
  */
 
-package clientPackage;
-import clientPackage.PaillierClient;
-import clientPackage.Email;
+package verifierPackage;
+import verifierPackage.Paillier_Verifier;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,304 +11,360 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.text.NumberFormat;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.OverlayLayout;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 public class SwingApp { 
 	
-	private static JFrame frame;
-	private static JLayeredPane pane;
-	private static JPanel bottomPane;
+	private JFrame frame;
+	private JPanel contentPane;
+	
 	private JPanel topPanel; 
-	private JPanel verifierPanel;
-	private JPanel thresholdPanel;
-	private JPanel banksPanel; 
-	private JLabel verifierLabel;
-	private JLabel thresholdLabel;
-	private JLabel banksLabel;
-	private JTextField thresholdField;
-	private JTextField banksField;
-	private DefaultListModel bankList;
-	private String[] verifiers;
-	private JComboBox<String> verifierList;
-	private JButton submit;
-	private int banksAdded; 
-	private JPanel leftBankPanel;
-	private JPanel innerLeftBankPanel;
-	private JPanel buttonLeftBankPanel;
-	private JButton addBank;
-	private JPanel rightBankPanel;
-	private JList newBankList;
 	private JTextArea instructions; 
-	private JLabel topMargin;
-	private JLabel verifierMargin;
-	private JLabel thresholdMargin;
-	private JLabel banksMargin;
+	
+	private JLabel transactionDetailsMargin;
+	private JPanel transactionDetailsPanel;
+	
+	private JPanel transactionDetailsInnerTopMargin;
+	private JPanel transactionDetailsInnerBottomMargin;
+	
+	private JPanel accountHolderPanel;
+	private JLabel accountHolderLabel;
+	private JLabel accountHolderName;
+	
+	private JPanel qualifyingBalancePanel;
+	private JLabel qualifyingBalanceLabel;
+	private JLabel qualifyingBalanceValue;
+	
+	private JPanel encryptedBalancePanel;
+	private JLabel encryptedBalanceLabel;
+	private JLabel encryptedBalanceValue;
+	
+	private JLabel keyMargin;
+	private JPanel keyPanel;
+	
+	private JPanel keyPanelInnerTopMargin;
+	private JPanel keyPanelInnerBottomMargin;
+	
+	private JPanel enterKeyPanel;
+	private JLabel enterKeyLabel;
+	private static JTextField enterKeyField;
+	
+	private JLabel resultMargin;
+	private JPanel resultPanel;
+	
+	private JPanel resultPanelInnerTopMargin;
+	private JPanel resultPanelInnerBottomMargin;
+	
+	private JPanel decryptedBalancePanel;
+	private JLabel decryptedBalanceLabel;
+	private static JLabel decryptedBalanceValue; 
+	
+	private JPanel decryptedResultPanel;
+	private JLabel decryptedResultLabel;
+	private static JLabel decryptedResultValue;  
+	
 	private JPanel bottomPanel;
-	private JButton submitButton;
-	private JLabel processingLabel;
-	private ImageIcon processingIcon;
-	private static String userId;
-	protected static String userName;
+	
+	private JButton decryptButton; 
+	
+	private static String encryptedBalance;
+	
+	protected static String verificationId;
 	  
-	public SwingApp(String appName, String id, String name) {
+	public SwingApp(String appName, String clientName, String qualifyingBalance, String cipherTextResultMask, String id) {
+		encryptedBalance = cipherTextResultMask;
+		verificationId = id;
 		frame = new JFrame(appName);
-		pane = new JLayeredPane();
-		bottomPane = new JPanel();
-		topPanel = new JPanel(); 
-		verifierPanel = new JPanel();
-		thresholdPanel = new JPanel();
-		banksPanel = new JPanel();
-		verifierLabel = new JLabel("Lender");
-		thresholdLabel = new JLabel("Amount");
-		banksLabel = new JLabel("Banks");
-		thresholdField = new JTextField(15);
-		banksField = new JTextField(15);
-		bankList = new DefaultListModel();
-		submit = new JButton("Submit");
-		banksAdded = 1;  
-		leftBankPanel = new JPanel();
-		innerLeftBankPanel = new JPanel();
-		buttonLeftBankPanel = new JPanel();
-		addBank = new JButton("ADD");
-		rightBankPanel = new JPanel();
-		newBankList = new JList(bankList);
+		contentPane = new JPanel();
+		
+		topPanel = new JPanel();  
 		instructions = new JTextArea();
-		topMargin = new JLabel();
-		verifierMargin = new JLabel();
-		thresholdMargin = new JLabel();
-		banksMargin = new JLabel();
+		
+		transactionDetailsMargin = new JLabel();
+		transactionDetailsPanel = new JPanel();
+		
+		transactionDetailsInnerTopMargin = new JPanel();
+		transactionDetailsInnerBottomMargin = new JPanel();
+		
+		accountHolderPanel = new JPanel();
+		accountHolderLabel = new JLabel("Account Holder: ");
+		accountHolderName = new JLabel(clientName);
+		
+		qualifyingBalancePanel = new JPanel();
+		qualifyingBalanceLabel = new JLabel("Qualifying Balance: ");
+		qualifyingBalanceValue = new JLabel("$"+qualifyingBalance); 
+		
+		encryptedBalancePanel = new JPanel();
+		encryptedBalanceLabel = new JLabel("Encrypted Balance: ");
+		encryptedBalanceValue = new JLabel(cipherTextResultMask.substring(0, 10)+"...");
+		
+		keyMargin = new JLabel();
+		keyPanel = new JPanel();
+		
+		keyPanelInnerTopMargin = new JPanel();
+		keyPanelInnerBottomMargin = new JPanel();
+		 
+		enterKeyPanel = new JPanel();
+		enterKeyLabel = new JLabel("Decryption Key: ");
+		enterKeyField = new JTextField();
+		
+		resultMargin = new JLabel();
+		resultPanel = new JPanel();
+		
+		resultPanelInnerTopMargin = new JPanel();
+		resultPanelInnerBottomMargin = new JPanel();
+		
+		decryptedBalancePanel = new JPanel();
+		decryptedBalanceLabel = new JLabel("Decrypted Value: ");
+		decryptedBalanceValue = new JLabel();
+		
+		decryptedResultPanel = new JPanel();
+		decryptedResultLabel = new JLabel("Result: ");
+		decryptedResultValue = new JLabel();
+		
 		bottomPanel = new JPanel();
-		submitButton = new JButton("SUBMIT");
-		processingLabel = new JLabel("Processing");
-		processingIcon = new ImageIcon(this.getClass().getResource("ajax-loader (1).gif"));
-		processingLabel.setIcon(processingIcon);
-		userId = id;
-		userName = name;
-	}  
-	 
+		decryptButton = new JButton("DECRYPT");
+
+	}    
+	
 	public void initializeEverifyApp() {
 		
 		 /*
-		  * Set frame, pane, bottomPane and topPane
+		  * Set frame and content pane
 		  */
 		
-		 frame.setSize(500,600);
-		 frame.setLayout(new BorderLayout());
-		 frame.add(pane, BorderLayout.CENTER);
-		 
-		 pane.setBounds(0, 0, 500, 600);
-		 
-		 bottomPane.setBounds(0, 0, 500, 600);
-		 bottomPane.setLayout(new BoxLayout(bottomPane, BoxLayout.Y_AXIS));
-		 
-		 pane.add(bottomPane, new Integer(0), 0); 
-		 
-		 /*
-		  * Set processingLabel
-		  */
-		
-		 processingLabel.setMaximumSize(new Dimension(200,150));
-		 processingLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		 processingLabel.setForeground(Color.WHITE);	
-		 processingLabel.setBorder(new EmptyBorder(250,0,0,0));
-		 
-		 /*
-		  * Top panel top margin
-		  */
-		 
-		 topMargin.setMaximumSize(new Dimension(500,15));
+		 this.frame.setSize(500,600);
+		 this.frame.setContentPane(contentPane);
+		 this.contentPane.setLayout(new BoxLayout(this.contentPane, BoxLayout.Y_AXIS));
+		 this.contentPane.setMaximumSize(new Dimension(500,600));
 		 
 		 /*
 		  * Top panel
 		  */
 		 
-		 instructions.setText("Please enter all information and click submit.  "
-					+ "Your encryption keys will be generated on your local machine and only shared with the verifier and your financial "
-					+ "institutions.  You "
-					+ "can enter up to 5 banks for a single transaction.");
+		 instructions.setText("Please enter the key and click decrypt.  "
+					+ "The encrypted balance minus the qualifying amount will be decrypted and revealed.  The value shown does not reflect the actual balance. "
+					+ "Any positive value represents an account balance with at least the qualifying amount.  ");
 		 
-		 instructions.setBackground(topPanel.getBackground());
-		 instructions.setLineWrap(true);
-		 instructions.setWrapStyleWord(true);
-		 instructions.setFont(new Font("Tahoma", Font.BOLD, 12));
-		 instructions.setBorder(new EmptyBorder(10,10,10,10));
-		 instructions.setEditable(false);
+		 this.instructions.setBackground(this.topPanel.getBackground());
+		 this.instructions.setLineWrap(true);
+		 this.instructions.setWrapStyleWord(true);
+		 this.instructions.setFont(new Font("Tahoma", Font.BOLD, 12));
+		 this.instructions.setBorder(new EmptyBorder(10,10,10,10));
+		 this.instructions.setEditable(false);
 		 
-		 topPanel.setLayout(new BorderLayout());
-		 topPanel.add(instructions, BorderLayout.CENTER);
+		 this.topPanel.setLayout(new BorderLayout());
+		 this.topPanel.add(this.instructions, BorderLayout.CENTER);
 			
-		 topPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		 topPanel.setMaximumSize(new Dimension(500,80));
-		 topPanel.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		 this.topPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		 this.topPanel.setMaximumSize(new Dimension(500,80));
+		 this.topPanel.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		 
 		 /*
-		  * Verifier panel top margin
+		  * Transaction details panel top margin
 		  */
 		 
-		 verifierMargin.setMaximumSize(new Dimension(500,20));
+		 this.transactionDetailsMargin.setMaximumSize(new Dimension(500,20));
 		 
 		 /*
-		  * Verifier panel
+		  * Transaction details panel
 		  */
 		 
-		 verifiers = new String[] {" -----Select Lender-----", "Bank of America", "Capital One", "Chase Bank", "Citibank", "Wells Fargo"};
-		 verifierList = new JComboBox<String>(verifiers);
-		 
-		 verifierLabel.setMaximumSize(new Dimension(80,25));
-		 verifierLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
-		 
-		 verifierList.setMaximumSize(new Dimension(150,25));
-		 
-		 verifierPanel.add(verifierLabel);
-		 verifierPanel.add(verifierList);
-		 
-		 verifierPanel.setLayout(new BoxLayout(verifierPanel, BoxLayout.X_AXIS));
-		 verifierPanel.setBorder(new EmptyBorder(50,0,0,0));
-		 verifierPanel.setBorder(BorderFactory.createTitledBorder("1.  Verification Information"));
-		 verifierPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
-		 verifierPanel.setMaximumSize(new Dimension(500,100));
+		 this.transactionDetailsPanel.setLayout(new BoxLayout(this.transactionDetailsPanel, BoxLayout.Y_AXIS));
+		 this.transactionDetailsPanel.setBorder(new EmptyBorder(50,0,0,0));
+		 this.transactionDetailsPanel.setBorder(BorderFactory.createTitledBorder("Transaction Details"));
+		 this.transactionDetailsPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
+		 this.transactionDetailsPanel.setMaximumSize(new Dimension(500,120));
 		 
 		 /*
-		  * Threshold panel top margin
+		  * Transaction details top margin
 		  */
 		 
-		 thresholdMargin.setMaximumSize(new Dimension(500,10));
+		 this.transactionDetailsInnerTopMargin.setMaximumSize(new Dimension(500,40));
+		 this.transactionDetailsPanel.add(this.transactionDetailsInnerTopMargin);
 		 
 		 /*
-		  * Threshold panel
+		  * Account holder panel -- transaction details sub panel
 		  */
 		 
-		 thresholdPanel.setLayout(new BoxLayout(thresholdPanel, BoxLayout.X_AXIS)); 
-		 thresholdPanel.setBorder(BorderFactory.createTitledBorder("2.  Qualifying Balance"));
+		 this.accountHolderPanel.setLayout(new BoxLayout(this.accountHolderPanel, BoxLayout.X_AXIS));
+		 this.accountHolderPanel.setMaximumSize(new Dimension(500,40));
 		 
-		 thresholdLabel.setMaximumSize(new Dimension(80,25));
-		 thresholdLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
+		 this.accountHolderLabel.setMaximumSize(new Dimension(150,25));
+		 this.accountHolderLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
 		 
-		 thresholdField.setMaximumSize(new Dimension(150,25));
+		 this.accountHolderName.setMaximumSize(new Dimension(120,25));
 		 
-		 thresholdPanel.add(thresholdLabel);
-		 thresholdPanel.add(thresholdField);
-		 thresholdPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
-		 thresholdPanel.setMaximumSize(new Dimension(500,100));
+		 this.accountHolderPanel.add(this.accountHolderLabel);
+		 this.accountHolderPanel.add(this.accountHolderName);
+		 
+		 this.transactionDetailsPanel.add(this.accountHolderPanel);
 		 
 		 /*
-		  * Bank panel top margin
+		  * Qualifying balance panel -- transaction details sub panel
 		  */
 		 
-		 banksMargin.setMaximumSize(new Dimension(500,10));
+		 this.qualifyingBalancePanel.setLayout(new BoxLayout(this.qualifyingBalancePanel, BoxLayout.X_AXIS));
+		 this.qualifyingBalancePanel.setMaximumSize(new Dimension(500,40));
+		 
+		 this.qualifyingBalanceLabel.setMaximumSize(new Dimension(150,25));
+		 this.qualifyingBalanceLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
+		 
+		 this.qualifyingBalanceValue.setMaximumSize(new Dimension(120,25));
+		 
+		 this.qualifyingBalancePanel.add(this.qualifyingBalanceLabel);
+		 this.qualifyingBalancePanel.add(this.qualifyingBalanceValue);
+		 
+		 this.transactionDetailsPanel.add(this.qualifyingBalancePanel);
 		 
 		 /*
-		  * Bank panel
+		  * Encrypted balance panel -- transaction details sub panel
 		  */
-		
-		 banksPanel.setLayout(new BoxLayout(banksPanel, BoxLayout.X_AXIS)); 
-		 banksPanel.setBorder(BorderFactory.createTitledBorder("3.  Financial Institutions"));
+		 
+		 this.encryptedBalancePanel.setLayout(new BoxLayout(this.encryptedBalancePanel, BoxLayout.X_AXIS));
+		 this.encryptedBalancePanel.setMaximumSize(new Dimension(500,40));
+		 
+		 this.encryptedBalanceLabel.setMaximumSize(new Dimension(150,25));
+		 this.encryptedBalanceLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
+		 
+		 this.encryptedBalanceValue.setMaximumSize(new Dimension(120,25));
+		 
+		 this.encryptedBalancePanel.add(this.encryptedBalanceLabel);
+		 this.encryptedBalancePanel.add(this.encryptedBalanceValue);
+		 
+		 this.transactionDetailsPanel.add(this.encryptedBalancePanel);  
 		 
 		 /*
-		  * Left side of bank panel
+		  * Transaction details bottom margin
 		  */
-			
-		 leftBankPanel.setLayout(new BoxLayout(leftBankPanel, BoxLayout.Y_AXIS));
-		 leftBankPanel.setMaximumSize(new Dimension(250,100));
-			
-		 innerLeftBankPanel.setLayout(new BoxLayout(innerLeftBankPanel, BoxLayout.X_AXIS));
-		 innerLeftBankPanel.setMaximumSize(new Dimension(250,50));
 		 
-		 buttonLeftBankPanel.setLayout(new BoxLayout(buttonLeftBankPanel, BoxLayout.X_AXIS));
-		 buttonLeftBankPanel.setMaximumSize(new Dimension(250,50));
-		 buttonLeftBankPanel.setBorder(new EmptyBorder(0,0,25,0));
+		 this.transactionDetailsInnerBottomMargin.setMaximumSize(new Dimension(500,40));
+		 this.transactionDetailsPanel.add(this.transactionDetailsInnerBottomMargin);
 		 
-		 banksLabel.setMaximumSize(new Dimension(80,25));
-		 banksLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
-		 
-		 banksField.setMaximumSize(new Dimension(150,25));
-		 
-		 innerLeftBankPanel.add(banksLabel);
-		 innerLeftBankPanel.add(banksField);
-		
-		 addBank.setMaximumSize(new Dimension(58,25));
-		 addBank.addActionListener(new ActionListener() {
-			 public void actionPerformed(ActionEvent e) {
-				 if(banksAdded < 6){
-					bankList.addElement(banksAdded++ + ". " + banksField.getText());
-					banksField.setText(null);
-				 } else {
-					banksField.setText(null);
-				 }
-			 }  
-		 }); 
-	 	
-		 buttonLeftBankPanel.add(Box.createRigidArea(new Dimension(170,0)));
-		 buttonLeftBankPanel.add(addBank);
-		
-		 leftBankPanel.add(innerLeftBankPanel);
-		 leftBankPanel.add(buttonLeftBankPanel);	
+		 this.keyMargin.setMaximumSize(new Dimension(500,20));
 		 
 		 /*
-		  * Right side of bank panel
+		  * Key panel
 		  */
-		
-		 rightBankPanel.setLayout(new BoxLayout(rightBankPanel, BoxLayout.Y_AXIS));
-		 rightBankPanel.setMaximumSize(new Dimension(250,100));
 		 
-		 newBankList.setBackground(rightBankPanel.getBackground());
-		 rightBankPanel.add(newBankList);
+		 this.keyPanel.setLayout(new BoxLayout(this.keyPanel, BoxLayout.Y_AXIS));
+		 this.keyPanel.setBorder(new EmptyBorder(50,0,0,0));
+		 this.keyPanel.setBorder(BorderFactory.createTitledBorder("Key Information"));
+		 this.keyPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
+		 this.keyPanel.setMaximumSize(new Dimension(500,90));
 		 
-		 banksPanel.add(leftBankPanel);
-		 banksPanel.add(rightBankPanel);
+		 /*
+		  * Key panel inner top margin
+		  */
 		 
-		 banksPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
-		 banksPanel.setMaximumSize(new Dimension(500,150));
+		 this.keyPanelInnerTopMargin.setMaximumSize(new Dimension(500,10));
+		 this.keyPanel.add(this.keyPanelInnerTopMargin);
+		 
+		 this.enterKeyPanel.setLayout(new BoxLayout(this.enterKeyPanel, BoxLayout.X_AXIS));
+		 this.enterKeyPanel.setMaximumSize(new Dimension(500,40));
+		  
+		 this.enterKeyLabel.setMaximumSize(new Dimension(150,25));
+		 this.enterKeyLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
+		 
+		 this.enterKeyField.setMaximumSize(new Dimension(120,25));
+		 
+		 this.enterKeyPanel.add(this.enterKeyLabel);
+		 this.enterKeyPanel.add(this.enterKeyField);
+		 
+		 this.keyPanel.add(this.enterKeyPanel);
+		 
+		 this.resultMargin.setMaximumSize(new Dimension(500,20));
+		 
+		 /*
+		  * Decrypted result panel
+		  */
+		 
+		 this.resultPanel.setLayout(new BoxLayout(this.resultPanel, BoxLayout.Y_AXIS));
+		 this.resultPanel.setBorder(new EmptyBorder(50,0,0,0));
+		 this.resultPanel.setBorder(BorderFactory.createTitledBorder("Transaction Result"));
+		 this.resultPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
+		 this.resultPanel.setMaximumSize(new Dimension(500,100));
+		 
+		 /*
+		  * Decrypted result inner top margin
+		  */
+		 
+		 this.resultPanelInnerTopMargin.setMaximumSize(new Dimension(500,50));
+		 this.resultPanel.add(this.resultPanelInnerTopMargin);
+		 
+		 /*
+		  * Decrypted balance panel - Result sub panel
+		  */
+		 
+		 this.decryptedBalancePanel.setLayout(new BoxLayout(this.decryptedBalancePanel, BoxLayout.X_AXIS));
+		 this.decryptedBalancePanel.setMaximumSize(new Dimension(500,50));
+		  
+		 this.decryptedBalanceLabel.setMaximumSize(new Dimension(150,25));
+		 this.decryptedBalanceLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
+		 
+		 this.decryptedBalanceValue.setMaximumSize(new Dimension(120,25));
+		 
+		 this.decryptedBalancePanel.add(this.decryptedBalanceLabel);
+		 this.decryptedBalancePanel.add(this.decryptedBalanceValue);
+		  
+		 this.resultPanel.add(this.decryptedBalancePanel);
+		 
+		 /*
+		  * Decrypted value panel - Result sub panel
+		  */
+		 
+		 this.decryptedResultPanel.setLayout(new BoxLayout(this.decryptedResultPanel, BoxLayout.X_AXIS));
+		 this.decryptedResultPanel.setMaximumSize(new Dimension(500,50));
+		  
+		 this.decryptedResultLabel.setMaximumSize(new Dimension(150,25));
+		 this.decryptedResultLabel.setBorder(new EmptyBorder(0, 20, 0, 0));
+		 
+		 this.decryptedResultValue.setMaximumSize(new Dimension(120,25));
+		 
+		 this.decryptedResultPanel.add(this.decryptedResultLabel);
+		 this.decryptedResultPanel.add(this.decryptedResultValue);
+		  
+		 this.resultPanel.add(this.decryptedResultPanel);
+		 
+		 /*
+		  * Result panel bottom margin
+		  */
+		 
+		 this.resultPanelInnerBottomMargin.setMaximumSize(new Dimension(500,50));
+		 this.resultPanel.add(this.resultPanelInnerBottomMargin);
 		 
 		 /*
 		  * Bottom panel
 		  */
 		 
-		 bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.X_AXIS));
-		 bottomPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
-		 bottomPanel.setMaximumSize(new Dimension(500,100));
+		 this.bottomPanel.setLayout(new BoxLayout(this.bottomPanel, BoxLayout.X_AXIS));
+		 this.bottomPanel.setAlignmentX(Component.LEFT_ALIGNMENT); 
+		 this.bottomPanel.setMaximumSize(new Dimension(500,100));
 		 
-		 submitButton.setMaximumSize(new Dimension(80,25));
+		 this.decryptButton.setMaximumSize(new Dimension(100,25));
 			
-		 bottomPanel.add(Box.createRigidArea(new Dimension(210,0)));
-		 bottomPanel.add(submitButton);
+		 this.bottomPanel.add(Box.createRigidArea(new Dimension(210,0)));
+		 this.bottomPanel.add(this.decryptButton);
 		 
-		 submitButton.addActionListener(new ActionListener() {
-		 	public void actionPerformed(ActionEvent e){
+		 this.decryptButton.addActionListener(new ActionListener(){
+			 public void actionPerformed(ActionEvent e){
 				try {
 					sendParameters();
 				} catch (NumberFormatException e1) {
@@ -321,45 +376,46 @@ public class SwingApp {
 				}
 			 }
 		 });
-		     
+		    
 		 /*
 		  * Panels added
 		  */
 			
-		 bottomPane.add(topMargin);
-		 bottomPane.add(topPanel);
-		 bottomPane.add(verifierMargin);
-		 bottomPane.add(verifierPanel);
-		 bottomPane.add(thresholdMargin);
-		 bottomPane.add(thresholdPanel);
-		 bottomPane.add(banksMargin);
-		 bottomPane.add(banksPanel);
-		 bottomPane.add(bottomPanel);
+		 this.contentPane.add(this.topPanel);
+		 this.contentPane.add(this.transactionDetailsMargin);
+		 this.contentPane.add(this.transactionDetailsPanel);
+		 this.contentPane.add(this.keyMargin);
+		 this.contentPane.add(this.keyPanel);
+		 this.contentPane.add(this.resultMargin);
+		 this.contentPane.add(this.resultPanel);
+		 this.contentPane.add(this.bottomPanel);
+			
+		 this.frame.setVisible(true);
+	}    
+	
+	public void sendParameters() throws NumberFormatException, IOException {
 		 
-		 frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-		 frame.setVisible(true);
-	}    
-	
-	public void sendParameters() throws NumberFormatException, IOException, AddressException, MessagingException {
-		String[] parameters = {thresholdField.getText(), Integer.toString(bankList.getSize()), 
-				verifierList.getSelectedItem().toString(), userId};
-	
-		PaillierClient.main(parameters); 
-	}    
+		String[] key = enterKeyField.getText().split("\\+");
+		
+		if(key.length == 3){
+			String[] parameters = {key[0], key[1], key[2], encryptedBalance};
+			Paillier_Verifier.main(parameters);
+		} else {
+			JOptionPane.showMessageDialog(frame, "Key invalid.  Please enter a valid key.");
+		}
+	}  
+	  
+	public static void sendResult(String decryptedValue, String finalResult){
+		decryptedBalanceValue.setText(decryptedValue);
+		decryptedResultValue.setText(finalResult);
+		enterKeyField.setText("");
+	}  
 	 
-	public static void closeApp() {
-		JOptionPane.showMessageDialog(frame, "Your verification has been submitted!  \n"
-				+ "    Your total financial balance is:\n\n                     $" + 
-				NumberFormat.getNumberInstance(Locale.US).format(PaillierClient.plainTextSum) + 
-				"\n\n    Thank you for using eVERIFY.\n\n");
-		frame.dispose();
-	} 
-	
 	public static void main(String[] args) {
 		
-		SwingApp encryptionApp = new SwingApp("eVERIFY", args[0], args[1]);
+		SwingApp encryptionApp = new SwingApp("eVERIFY", args[0], args[1], args[2], args[4]);
 		encryptionApp.initializeEverifyApp();
 		
-	}
-  
+	} 
+ 
 }
